@@ -4,6 +4,7 @@ const {validateSignupData} = require("../utils/validation");
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const validator = require("validator");
+const {userAuth} = require("../middlewares/auth");
 
 authRouter.post("/signup", async (req, res) => {
   try {
@@ -60,5 +61,20 @@ authRouter.post("/login", async (req, res) => {
       .send("Something went wrong while logging user - " + err.message);
   }
 });
+
+authRouter.post("/logout",userAuth, async(req, res) => {
+    try {
+      res.cookie("token", null, {
+        expires: new Date(Date.now()),
+      });
+      res.status(200).send({ message: "User logged out successfully" });
+     
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .send("Something went wrong while logging out user - " + err.message);
+    }
+  });
 
 module.exports = authRouter;
