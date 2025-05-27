@@ -22,6 +22,10 @@ app.use("/", authRouter);
 app.use("/", userAuth, profileRouter); //If `userAuth` is not applied globally, there's a risk of forgetting to secure a route, leaving it exposed to unauthorized access. Applying it at the `app.use()` level ensures consistent security across all protected routes, reducing the chance of human error and vulnerabilities.
 app.use("/", userAuth, requestRouter); 
 app.use("/",userRouter); 
+app.get("/ping", (req, res) => {
+  res.send("pong");
+});
+
 
 
 
