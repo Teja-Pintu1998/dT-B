@@ -10,13 +10,15 @@ const jwt = require("jsonwebtoken");
 const { userAuth } = require("./middlewares/auth");
 const cors = require("cors");
 // app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
-app.use(cors({
-  origin: [
-    "http://localhost:5173",   // for local dev
-    "http://18.226.34.89"      // for my deployed frontend
-  ],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173", // for local dev
+      "http://18.226.34.89", // for my deployed frontend
+    ],
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -25,6 +27,10 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/requests");
 const { userRouter } = require("./routes/user");
+
+app.get("/", (req, res) => {
+  res.status(200).send("Backend is running, but no route at /");
+});
 
 app.use("/", authRouter);
 app.use("/", userAuth, profileRouter); //If `userAuth` is not applied globally, there's a risk of forgetting to secure a route, leaving it exposed to unauthorized access. Applying it at the `app.use()` level ensures consistent security across all protected routes, reducing the chance of human error and vulnerabilities.
