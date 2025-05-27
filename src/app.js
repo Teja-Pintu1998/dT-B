@@ -9,7 +9,15 @@ const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const { userAuth } = require("./middlewares/auth");
 const cors = require("cors");
-app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+// app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+app.use(cors({
+  origin: [
+    "http://localhost:5173",   // for local dev
+    "http://18.226.34.89"      // for my deployed frontend
+  ],
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(cookieParser());
 
