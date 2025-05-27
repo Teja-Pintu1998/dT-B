@@ -15,7 +15,7 @@ const userAuth = async (req, res, next) => {
       return res.status(401).send("Unauthorized access - Please login again");
     }
 
-    const decodedObj = await jwt.verify(token, "Dev@Tinder@123");
+    const decodedObj = await jwt.verify(token, process.env.JWT_SECRET_KEY);
     const { _id } = decodedObj;
     
     const user = await User.findOne({ _id });
